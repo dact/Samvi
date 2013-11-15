@@ -1,65 +1,136 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Validacion de usuarios</title>
-<link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery.mobile-1.3.2.min.js"></script>
-</head>
- 
-<body>
- 
-<div data-role="page" id="inicio">
- 
-<div data-role="header">
-<h1>SAMVI</h1>
-</div>
-<div data-role="content">	
-<form id="formulario" >
-<label> Usuario </label>
-<input type="text" id="nombredeusuario" name="nombredeusuario">
-<label>Constraseña</label>
-<input type="password" id="clave" name="clave" >
- 
-<input type="submit" value="Entrar" id="botonLogin">
-</form>	
-</div>
-</div>
-<div data-role="page" id="home">
- 
-<div data-role="header">
-<h1>Bienvenido</h1>
-</div>
- 
-<div data-role="content">	
-<h2> Bienvenido a la aplicacion </h2>
-<h3> Su usuario y password son válidos</h3>
-</div>
- 
-</div>
- 
-<script>
- 
-$('#formulario').submit(function() {
-// recolecta los valores que inserto el usuario
-var datosUsuario = $("#nombredeusuario").val()
-var datosPassword = $("#clave").val()
-archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
- 
-$.getJSON( archivoValidacion, { usuario:datosUsuario ,password:datosPassword})
-.done(function(respuestaServer) {
-alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" +respuestaServer.generador)
-if(respuestaServer.validacion == "ok"){
-/// si la validacion es correcta, muestra la pantalla "home"
-$.mobile.changePage("#home")
-}else{
-/// ejecutar una conducta cuando la validacion falla
-}
-})
-return false;
-})
-</script>
- 
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Validacion de usuarios</title>
+
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
+        <script src="js/jquery-1.10.2.min.js"></script>
+
+        <script type="text/javascript" src="js/jquery.ui.map.js"></script>
+        <script type="text/javascript" src="js/jquery.ui.map.services.js"></script>
+        <script type="text/javascript" src="js/jquery.ui.map.extensions.js"></script>
+
+        <script src="js/jquery.mobile-1.3.2.min.js"></script>
+
+
+
+
+    </head>
+
+    <body>
+
+        <div data-role="page" id="inicio">
+
+            <div data-role="header">
+                <h1>SAMVI</h1>
+            </div>
+            <div data-role="content">
+                <img border="0" src="img/logo.png" alt="Logo, Samvi" style="position: relative; left: 50%; margin-top: 5px;margin-left: -85px;"/>
+                <h4 style="text-align: center">Servicio de Asistencia Mecánica Vial</h4>
+
+                <form id="formulario" >
+                    <label> Usuario </label>
+                    <input type="text" id="nombredeusuario" name="nombredeusuario">
+                    <label>Constraseña</label>
+                    <input type="password" id="clave" name="clave" >
+
+                    <input type="submit" value="Entrar" id="botonLogin">
+                </form>
+                <p>
+                    <a id="registrarse">Registrarse</a>
+                    <a id="vermapa">Ver mapa</a>
+                </p>
+
+            </div>
+        </div>
+        <div data-role="page" id="home">
+
+            <div data-role="header">
+                <h1>Bienvenido</h1>
+            </div>
+
+            <div data-role="content">	
+                <h2> Bienvenido a la aplicacion </h2>
+                <h3> Su usuario y password son válidos</h3>
+            </div>
+
+        </div>
+
+        <div data-role="page" id="frmregistro">
+
+            <div data-role="header">
+                <h1>Registrarse</h1>
+            </div>
+
+            <div data-role="content">	
+                <a class="cancelarregistro" data-role="button" data-inline="true" data-mini="true" data-icon="back">Atras</a>
+
+                <a class="cancelarregistro" data-role="button" data-inline="true" data-mini="true" data-icon="delete">Cancelar</a>
+            </div>
+
+        </div>
+
+        <div data-role="page" id="pagemap">
+            <div data-role="header">
+                <a class="cancelarregistro" data-role="button" data-inline="true" data-mini="true" data-icon="back">Atras</a>
+                <h1>Mapa Samvi</h1>
+            </div>
+
+            <div data-role="content">	
+
+                <div class="ui-bar-c ui-corner-all ui-shadow" style="position:absolute;margin-top:10px; height: 80%;width: 90%;padding:1em;">
+                    <div id="map_canvas" style="height: 80%;width: 90%;position:absolute;"></div>
+                </div>
+            </div> 
+        </div>    
+        <script>
+            //init maps
+            var mobileDemo = {'center': '6.257137,-75.574436', 'zoom': 10};
+            
+             $('#map_canvas').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI': true, 'callback': function() {
+                            var self = this;
+                            self.addMarker({'position': this.get('map').getCenter()}).click(function() {
+                                self.openInfoWindow({'content': 'Hello World!'}, this);
+                            });
+                        }});
+
+           
+
+            //click en boton regisrarse    
+            $("#registrarse").click(function() {
+                $.mobile.changePage("#frmregistro")
+            });
+
+            $(".cancelarregistro").click(function() {
+                $.mobile.changePage("#inicio")
+            });
+
+            $("#vermapa").click(function() {
+                $.mobile.changePage("#pagemap")
+            });
+
+            $('#formulario').submit(function() {
+                // recolecta los valores que inserto el usuario
+                var datosUsuario = $("#nombredeusuario").val()
+                var datosPassword = $("#clave").val()
+                archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
+
+                $.getJSON(archivoValidacion, {usuario: datosUsuario, password: datosPassword})
+                        .done(function(respuestaServer) {
+                    alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora + "\n" + respuestaServer.generador)
+                    if (respuestaServer.validacion == "ok") {
+                        /// si la validacion es correcta, muestra la pantalla "home"
+                        $.mobile.changePage("#home")
+                    } else {
+                        /// ejecutar una conducta cuando la validacion falla
+                    }
+                })
+                return false;
+            })
+        </script>
+
+    </body>
 </html>
