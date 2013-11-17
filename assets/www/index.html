@@ -80,24 +80,25 @@
             </div>
 
             <div data-role="content">	
-
-                <div class="ui-bar-c ui-corner-all ui-shadow" style="position:absolute;margin-top:10px; height: 80%;width: 90%;padding:1em;">
-                    <div id="map_canvas" style="height: 80%;width: 90%;position:absolute;"></div>
+                
+                <div  style="left: 50%; position:absolute;margin-top:1px; height:85%;width: 95%;padding:1em;">
+                    <div class="ui-bar-c ui-corner-all ui-shadow" id="map_canvas" style="left: -50%;height:100%;width:100%;"></div>
                 </div>
+                
             </div> 
         </div>    
         <script>
             //init maps
-            var mobileDemo = {'center': '6.257137,-75.574436', 'zoom': 10};
-            
-             $('#map_canvas').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI': true, 'callback': function() {
-                            var self = this;
-                            self.addMarker({'position': this.get('map').getCenter()}).click(function() {
-                                self.openInfoWindow({'content': 'Hello World!'}, this);
-                            });
-                        }});
+            var mobileDemo = {'center': '6.257137,-75.574436', 'zoom': 15};
 
-           
+            $('#map_canvas').gmap({'center': mobileDemo.center, 'zoom': mobileDemo.zoom, 'disableDefaultUI': true, 'callback': function() {
+                    var self = this;
+                    self.addMarker({'position': this.get('map').getCenter()}).click(function() {
+                        self.openInfoWindow({'content': 'Hello World!'}, this);
+                    });
+                }});
+
+          
 
             //click en boton regisrarse    
             $("#registrarse").click(function() {
