@@ -1,0 +1,65 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Formulario registro</title>
+        <meta charset="UTF-8">
+        <!--<script type="text/javascript" src="js/lib/phonegap/cordova.js"></script>-->
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
+        <script src="js/lib/jquery/jquery-1.10.2.min.js"></script>
+        <script src="js/lib/jquerymobile/jquery.mobile-1.3.2.min.js"></script>
+    </head>
+    <body>
+         <div data-role="page" id="inicio">
+            <div data-role="header">
+                <a href="index.html" data-role="button" data-inline="true" data-mini="true" data-icon="back">Atras</a>
+                <h1>Registro SAMVI</h1>
+            </div>
+            <div data-role="content">
+                <form id="formulario">
+                    <label>Nombres</label>
+                    <input type="text" id="nombres" name="nombres">
+                    <label>Apellidos</label>
+                    <input type="text" id="apellidos" name="apellidos">
+                    <label>Cedula</label>
+                    <input type="text" id="cedula" name="cedula">
+                    <label>Correo</label>
+                    <input type="text" id="correo" name="correo">
+                    <label>Constraseña</label>
+                    <input type="password" id="clave" name="clave">
+                    <input type="submit" value="registrar" id="botonregistrar">
+                </form>
+
+            </div>
+
+        </div>
+        <script>
+                $('#formulario').submit(function() {
+                // recolecta los valores que inserto el usuario
+                var datosNombres = $("#nombres").val()
+                var datosApellidos = $("#apellidos").val()
+                var datosCedula = $("#cedula").val()
+                var datosCorreo = $("#correo").val()
+                var datosClave = $("#clave").val()
+                
+                archivoValidacion = "http://revolucion.mobi/ejemplos/phonegap/envioFormulario/validacion_de_datos.php?jsoncallback=?"
+
+                $.getJSON(archivoValidacion, {nombres: datosNombres, apellidos: datosApellidos,cedula:datosCedula,correo:datosCorreo,clave:datosClave})
+                        .done(function(respuestaServer) {
+                    
+                    if (respuestaServer.validacion == "ok") {
+                        /// si la validacion es correcta, muestra la pantalla "home"
+                       // $.mobile.changePage("#home")
+                       alert(datosNombres+" fue registrado exitosamente")
+                    } else {
+                        /// ejecutar una conducta cuando la validacion falla
+                    }
+                })
+                return false;
+            });
+        </script>
+    </body>
+</html>
